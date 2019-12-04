@@ -1,4 +1,4 @@
-//Advent of code - puzzle 2
+//Advent of code - puzzle 3
 //https://adventofcode.com/2019/day/2
 //Correct answer from my input is 3706713
 
