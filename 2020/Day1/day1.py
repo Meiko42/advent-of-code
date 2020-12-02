@@ -22,8 +22,8 @@ def main():
 
     with open("Input.txt") as inputFile:
         for line in inputFile:
-            compliment = 2020 - int(line)
-            inputDict[int(line.rstrip())] = compliment
+            complement = 2020 - int(line)
+            inputDict[int(line.rstrip())] = complement
 
     partOne(inputDict)
 

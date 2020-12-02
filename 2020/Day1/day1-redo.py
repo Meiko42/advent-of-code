@@ -9,9 +9,9 @@ def partOne(inputDict):
 def partTwo(inputDict):
     for value1 in inputDict.values():
         for value2 in inputDict.values():
-            compliment = value1 + value2
-            if compliment in inputDict.keys():
-                value3 = inputDict.get(compliment)
+            complement = value1 + value2
+            if complement in inputDict.keys():
+                value3 = inputDict.get(complement)
                 print(f"Part 2: Found {value1}, {value2}, {value3}")
                 answer = value1 * value2 * value3
                 print(f"Part 2: Answer is {answer}")
@@ -24,9 +24,9 @@ def main():
 
     with open("Input.txt") as inputFile:
         for line in inputFile:
-            compliment = 2020 - int(line)
-            inputDict[int(line.rstrip())] = compliment
-            inputDictFlip[compliment] = int(line.rstrip())
+            complement = 2020 - int(line)
+            inputDict[int(line.rstrip())] = complement
+            inputDictFlip[complement] = int(line.rstrip())
 
     partOne(inputDict)
 
