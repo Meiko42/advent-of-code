@@ -7,27 +7,30 @@ def partOne(inputDict):
             return
 
 def partTwo(inputDict):
-    for key1 in inputDict.keys():
-        for key2 in inputDict.keys():
-            for key3 in inputDict.keys():
-                if key1 + key2 + key3 == 2020:
-                    print(f"Part 2: Found {key1}, {key2}, {key3}")
-                    answer = key1 * key2 * key3
-                    print(f"Part 2: Answer is {answer}")
-                    return
+    for value1 in inputDict.values():
+        for value2 in inputDict.values():
+            compliment = value1 + value2
+            if compliment in inputDict.keys():
+                value3 = inputDict.get(compliment)
+                print(f"Part 2: Found {value1}, {value2}, {value3}")
+                answer = value1 * value2 * value3
+                print(f"Part 2: Answer is {answer}")
+                return
 
 def main():
 
     inputDict = {}
+    inputDictFlip = {}
 
     with open("Input.txt") as inputFile:
         for line in inputFile:
             compliment = 2020 - int(line)
             inputDict[int(line.rstrip())] = compliment
+            inputDictFlip[compliment] = int(line.rstrip())
 
     partOne(inputDict)
 
-    partTwo(inputDict)
+    partTwo(inputDictFlip)
 
 
 if __name__ == "__main__":
