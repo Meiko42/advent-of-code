@@ -1,5 +1,4 @@
 import re
-import pprint
 
 inputRawMatch = re.compile('^([B|F]{7})([R|L]{3})')
 
@@ -14,6 +13,8 @@ with open('Input.txt') as inputFile:
         passesDict[passesCount]['columnInput'] = inputMatched.group(2)
         passesCount += 1
 
+seenBoardingPassNums = {}
+
 for key, value in passesDict.items():
     replaceString = str(value['rowInput'])
     replaceString = replaceString.replace('B', '1')
@@ -24,6 +25,8 @@ for key, value in passesDict.items():
     replaceString = replaceString.replace('R', '1')
     replaceString = replaceString.replace('L', '0')
     value['columnInput'] = int(replaceString, base=2)
+    # For part 2
+    seenBoardingPassNums[passesDict[key]['rowInput'] * 8 + passesDict[key]['columnInput']] = True
 
 # pprint.pprint(passesDict)
 
@@ -45,8 +48,14 @@ for key, value in passesDict.items():
         bestSeenRowDict['winner']['columnInput'] = value['columnInput']
         bestSeenRowDict['winner']['passNumber'] = int(key)
 
-pprint.pprint(bestSeenColumnDict)
-pprint.pprint(bestSeenRowDict)
+highestSeatId = bestSeenRowDict['winner']['rowInput'] * 8 + bestSeenRowDict['winner']['columnInput']
 
-print(bestSeenRowDict['winner']['rowInput'] * 8 + bestSeenRowDict['winner']['columnInput'])
-        
+print(f"Part 1: {highestSeatId}")
+
+for number in range(highestSeatId):
+    number += 1
+    if number not in seenBoardingPassNums.keys():
+        aheadNum = number + 1
+        behindNum = number - 1
+        if (aheadNum in seenBoardingPassNums.keys()) and (behindNum in seenBoardingPassNums.keys()):
+            print(f"Part 2: {number}")
