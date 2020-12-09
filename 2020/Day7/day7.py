@@ -33,7 +33,16 @@ def RecursiveBagSearch(bagToSearchDict, checkedBags, bagsThatCanDict, bagToSearc
         RecursiveBagSearch(bagToSearchDict, checkedBags, bagsThatCanDict, bagToSearchNextDict)
     else:
         return bagsThatCanDict
-    
+
+def RecursiveContentsSearch(bagToSearchDict, bagsContentsDict, bagToSearchNextDict):
+    for bagSearch, contains in bagToSearchDict.items():
+        if contains != "upperBagAmount":
+            for bag, value in bagTypeInfoDict[bagSearch].items():
+                    contains[bag] = {}
+                    contains[bag]["upperBagAmount"] = value
+                    RecursiveContentsSearch(contains[bag], bagsContentsDict, bagToSearchNextDict)
+
+
 
 inputLineMatch = re.compile('^(\S+ \S+ bag)s contain (no other bags.|((\d+) (\S+ \S+ \S+(\, |\.)))+)')
 # bagCanContainMatch = re.compile('^ ?(\d+) (\S+ \S+ \S+)((?<=(\.|\,))|((?<=(s\.|s\,))))')
@@ -52,7 +61,6 @@ for line in inputVar:
     else:
         # print(line.group(2))
         bagCanContainLines = line.group(2)
-        # MOTHERFUCKER.
         # This was originally:
         # bagCanContainLines = bagCanContainLines.split(',|.')
         # I shouldn't be allowed to do things.
@@ -72,6 +80,17 @@ RecursiveBagSearch(bagToSearchDict, checkedBags, bagsThatCanDict, bagToSearchNex
 
 # Part 1 - 177
 print(len(bagsThatCanDict.keys()))
+
+bagToSearchDict = {"shiny gold bag": {"upperBagAmount": 1}}
+bagToSearchNextDict = {}
+bagsContentsDict = {}
+RecursiveContentsSearch(bagToSearchDict, bagsContentsDict, bagToSearchNextDict)
+
+# print(len(bagsThatCanDict.keys()))
+
+
+
+
 
 # for bagType, bagValues in bagTypeInfoDict.items():
 #     if "isEmpty" not in bagValues.keys():
