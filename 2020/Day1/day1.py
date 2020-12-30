@@ -25,6 +25,9 @@ def main():
             complement = 2020 - int(line)
             inputDict[int(line.rstrip())] = complement
 
+    # Answer: 
+    # Part 1: Found 1477, 543
+    # Part 1: Answer is 802011
     partOne(inputDict)
 
     partTwo(inputDict)
