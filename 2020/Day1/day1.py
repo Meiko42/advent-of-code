@@ -30,6 +30,9 @@ def main():
     # Part 1: Answer is 802011
     partOne(inputDict)
 
+    # Answer: 
+    # Part 2: Found 422, 577, 1021
+    # Part 2: Answer is 248607374
     partTwo(inputDict)
 
 
