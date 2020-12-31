@@ -2,39 +2,51 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"log"
 	"os"
 	"strconv"
 )
 
-func partOne(inputMap map[int32]int32) string {
-	var part1Slice []int32
+func partOne(inputMap map[int32]int32) (answer1String string, err error) {
+	defer func() {
+		if answer1String == "" {
+			err = errors.New("There is no match for part 1")
+		}
+	}()
 
 	for _, v := range inputMap {
-		if _, found := inputMap[v]; found {
-			part1Slice = append(part1Slice, v)
+		if v2, found := inputMap[v]; found {
+			part1Answer := v * v2
+			answer1String = fmt.Sprintf("Part 1 - Found %d and %d\nAnswer is %d\n", v, v2, part1Answer)
+			return
 		}
 	}
 
-	part1Answer := part1Slice[0] * part1Slice[1]
-	answer1String := fmt.Sprintf("Part 1 - Found %d and %d\nAnswer is %d\n", part1Slice[0], part1Slice[1], part1Answer)
-	return answer1String
+	return
 }
 
-func partTwo(inputMap map[int32]int32) string {
+func partTwo(inputMap map[int32]int32) (answer2String string, err error) {
+	defer func() {
+		if answer2String == "" {
+			err = errors.New("There is no match for part 2")
+		}
+	}()
+
 	for k1 := range inputMap {
 		for k2 := range inputMap {
 			for k3 := range inputMap {
 				if k1+k2+k3 == 2020 {
 					part2Answer := k1 * k2 * k3
-					answer2String := fmt.Sprintf("Part 2 - Found %d, %d and %d\nAnswer is %d\n", k1, k2, k3, part2Answer)
-					return answer2String
+					answer2String = fmt.Sprintf("Part 2 - Found %d, %d and %d\nAnswer is %d\n", k1, k2, k3, part2Answer)
+					return
 				}
 			}
 		}
 	}
-	return "There is no match for part 2"
+
+	return
 }
 
 func main() {
@@ -57,11 +69,18 @@ func main() {
 	// Answer:
 	// Part 1: Found 1477, 543
 	// Part 1: Answer is 802011
-	fmt.Print(partOne(inputMap))
+	if part1Answer, part1Error := partOne(inputMap); part1Error != nil {
+		log.Fatal(part1Error)
+	} else {
+		fmt.Print(part1Answer)
+	}
 
 	// Answer:
 	// Part 2: Found 422, 577, 1021
 	// Part 2: Answer is 248607374
-	fmt.Print(partTwo(inputMap))
-
+	if part2Answer, part2Error := partTwo(inputMap); part2Error != nil {
+		log.Fatal(part2Error)
+	} else {
+		fmt.Print(part2Answer)
+	}
 }
