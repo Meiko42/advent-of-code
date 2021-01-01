@@ -25,8 +25,10 @@ with open('Input.txt') as inputFile:
             charCounter2 += 1
         if parsedLine.group(4)[position2] is parsedLine.group(3):
             charCounter2 += 1
-        if charCounter2 is 1:
+        if charCounter2 == 1:
             goodPassCount2 += 1
 
+# Answer: 614
 print(goodPassCount)
+# Answer: 354
 print(goodPassCount2)
