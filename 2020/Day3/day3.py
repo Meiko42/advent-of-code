@@ -39,13 +39,12 @@ def slopeCheck(overNum, downNum):
         downCounter += 1
     return treesCounter
 
-# Part 1
+# Part 1 Answer: 268
 print("Part 1:")
 print(slopeCheck(3, 1))
 
 # Part 2
 print("\nPart 2:")
-input2Dict = {}
 part2ValuesList = []
 for line in inputList2:
     parsedLine = inputList2Parse.match(line)
