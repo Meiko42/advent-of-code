@@ -16,7 +16,7 @@ counter2 = 0
 last_measurement = 0
 counter = 0
 
-with open('test-input.txt') as input_file:
+with open('input.txt') as input_file:
     for line in input_file:
         failed = False
         measurement = int(line) + counter1 + counter2
