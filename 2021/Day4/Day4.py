@@ -8,25 +8,24 @@ def check_cards(number_draw_list, boards):
 
     live_draw_list = []
 
-    winning_board = []
-
     for i in number_draw_list:
-        live_draw_list.append(i)
+        live_draw_list.append(int(i))
+        print(live_draw_list)
 
         for b in boards:
             for direction in b:
                 for numbers in direction:
                     matching_nums = 0
                     for num in numbers:
-                        if num in live_draw_list:
+                        if int(num) in live_draw_list:
                             matching_nums +=1
                     if matching_nums == 5:
-                        return b
+                        return [direction, numbers], live_draw_list
 
 
 def main():
-    input_file = "input-test.txt"
-    # input_file = "input.txt"
+    # input_file = "input-test.txt"
+    input_file = "input.txt"
     inputs = read_input(input_file)
 
     number_draw_list = inputs[0].split(',')
@@ -38,7 +37,7 @@ def main():
     card_rows = []
     for i in range(len(inputs)):
         if i > 1:
-            if inputs[i] != '':
+            if (inputs[i] != ''):
                 card_rows.append(inputs[i].split())
             else:
                 card_columns = []
@@ -52,10 +51,34 @@ def main():
                     card_column = []
                 boards.append([card_rows, card_columns])
                 card_rows = []
+    # Awful fix to get last card
+    card_columns = []
+    card_column = []
+    col_counter = 0
+    while col_counter != 4:
+        for i in card_rows:
+            card_column.append(i[col_counter])
+        col_counter += 1
+        card_columns.append(card_column)
+        card_column = []
+    boards.append([card_rows, card_columns])
+    card_rows = []
+    
 
 
-    winning_card = check_cards(number_draw_list, boards)
+    winning_card, called_numbers = check_cards(number_draw_list, boards)
+
     print(winning_card)
+    print(called_numbers)
+
+    sum_unmarked = 0
+
+    for row in winning_card[0]:
+        for i in row:
+            if int(i) not in called_numbers:
+                sum_unmarked = sum_unmarked + int(i)
+
+    print(sum_unmarked * called_numbers[-1])
 
 
 if __name__ == "__main__":
