@@ -4,23 +4,34 @@ def read_input(input_file):
     return inputs
 
 
-def check_cards(number_draw_list, boards):
+def check_cards(number_draw_list, boards, winning_boards):
 
     live_draw_list = []
 
     for i in number_draw_list:
         live_draw_list.append(int(i))
-        print(live_draw_list)
+        # print(live_draw_list)
 
-        for b in boards:
-            for direction in b:
-                for numbers in direction:
-                    matching_nums = 0
-                    for num in numbers:
-                        if int(num) in live_draw_list:
-                            matching_nums +=1
-                    if matching_nums == 5:
-                        return [direction, numbers], live_draw_list
+        if boards:
+            for b in boards:
+                for direction in b:
+                    # print(direction)
+                    # print()
+                    # print(len(direction))
+                    for numbers in direction:
+                        matching_nums = 0
+                        for num in numbers:
+                            if int(num) in live_draw_list:
+                                matching_nums +=1
+                        if matching_nums == 5:
+                            # print(len(direction))
+                            insert = [direction, live_draw_list]
+                            winning_boards.append(insert)
+                            new_boards = boards
+                            new_boards.remove(b)
+                            return check_cards(number_draw_list, new_boards, winning_boards)
+        else:
+            return winning_boards
 
 
 def main():
@@ -43,7 +54,7 @@ def main():
                 card_columns = []
                 card_column = []
                 col_counter = 0
-                while col_counter != 4:
+                while col_counter != 5:
                     for i in card_rows:
                         card_column.append(i[col_counter])
                     col_counter += 1
@@ -66,19 +77,45 @@ def main():
     
 
 
-    winning_card, called_numbers = check_cards(number_draw_list, boards)
+    winning_card = check_cards(number_draw_list, boards, [])
 
-    print(winning_card)
-    print(called_numbers)
+
+    longest = 0
+
+    loser = None
+
+    for cardinfo in winning_card:
+        if len(cardinfo[1]) > longest:
+            longest = len(cardinfo[1])
+            loser = cardinfo
+
+    # print(loser)
 
     sum_unmarked = 0
 
-    for row in winning_card[0]:
+    for row in loser[0]:
         for i in row:
-            if int(i) not in called_numbers:
+            if int(i) not in loser[1]:
+                print(i)
                 sum_unmarked = sum_unmarked + int(i)
 
-    print(sum_unmarked * called_numbers[-1])
+    # print(sum_unmarked)
+
+    
+    print(sum_unmarked * loser[1][-1])
+
+    # for i in winning_card:
+
+    # print(called_numbers)
+
+    # sum_unmarked = 0
+
+    # for row in winning_card[0]:
+    #     for i in row:
+    #         if int(i) not in called_numbers:
+    #             sum_unmarked = sum_unmarked + int(i)
+
+    # print(sum_unmarked * called_numbers[-1])
 
 
 if __name__ == "__main__":
