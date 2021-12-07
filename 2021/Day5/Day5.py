@@ -28,9 +28,9 @@ def read_input(input_file):
 #     print(overlappingLinePoints)
 #     return linePoints, overlappingLinePoints
 
-def check_line_points(lineStart, lineEnd, linePoints, overlapCounter, stableX=None, stableY=None):
+def check_line_points(lineStart, lineEnd, linePoints, overlapCounter, stableX=None, stableY=None, otherLineStart=None, otherLineEnd=None):
 
-    if lineStart > lineEnd:
+    if (otherLineStart is None) and (lineStart > lineEnd):
         temp = lineStart
         lineStart = lineEnd
         lineEnd = temp
@@ -54,7 +54,38 @@ def check_line_points(lineStart, lineEnd, linePoints, overlapCounter, stableX=No
                 linePoints[i][stableY] = True
                 overlapCounter += 1
     else:
-        raise Exception('Incorrect values supplied to check_line_points.')
+        # In this case, lineStart=AX, lineEnd=BX, otherLineStart=AY, otherLineEnd=BY
+        # Instructions say all lines are exactly 45 degrees. 
+        xpos = lineStart
+        ypos = otherLineStart
+        origLineStart = lineStart
+        origLineEnd = lineEnd
+        if lineStart > lineEnd:
+            temp = lineStart
+            lineStart = lineEnd
+            lineEnd = temp
+        for i in range(lineStart, lineEnd+1):
+            # print(len(range(lineStart, lineEnd+1)))
+            print(xpos)
+            print(ypos)
+            if xpos not in linePoints:
+                linePoints[xpos] = {}
+
+            if ypos not in linePoints[xpos]:
+                linePoints[xpos][ypos] = False
+            else:
+                linePoints[xpos][ypos] = True
+                overlapCounter += 1
+            
+            if origLineStart > origLineEnd:
+                xpos -= 1
+            else:
+                xpos += 1
+
+            if otherLineStart > otherLineEnd:
+                ypos -= 1
+            else:
+                ypos += 1
 
     return linePoints, overlapCounter
 
@@ -84,10 +115,10 @@ def main():
         elif linePointAY == linePointBY:
             linePoints, overlapCounter = check_line_points(linePointAX, linePointBX, linePoints, overlapCounter, stableY=linePointAY)
         else:
-            # print(f"Skipping diaganal line: {line}")
-            pass
+            # pass
+            linePoints, overlapCounter = check_line_points(linePointAX, linePointBX, linePoints, overlapCounter, otherLineStart=linePointAY, otherLineEnd=linePointBY)
 
-    # pprint.pprint(linePoints)
+    pprint.pprint(linePoints)
 
     # print(overlapCounter)
 
@@ -97,7 +128,19 @@ def main():
         for y, hitcount in values.items():
             if hitcount:
                 doubleCheckCounter += 1
-    
+
+
+    for x, values in linePoints.items():
+        for i in range(0, 10):
+            if i in values:
+                if values[i]:
+                    print("# ", end="", flush=True)
+                else:
+                    print(". ", end="", flush=True)
+            else:
+                print(". ", end="", flush=True)
+        print()
+        
     print(doubleCheckCounter)
 
 if __name__ == "__main__":
