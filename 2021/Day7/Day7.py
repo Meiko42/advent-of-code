@@ -3,10 +3,13 @@ def read_input(input_file):
 
     return inputs
 
+# Playing with the numbers for the fuel consumption, found the sequence is triange numbers
+# This makes the part 2 solution very easy
+
 
 def main():
-    # input_file = "input.txt"
-    input_file = "input-test.txt"
+    input_file = "input.txt"
+    # input_file = "input-test.txt"
     inputs = read_input(input_file)
 
     positionsDict = {}
@@ -21,7 +24,7 @@ def main():
         positionsDict[int(i)]["subsOnPosition"] += 1
         if int(i) > largestPositionNumber:
             largestPositionNumber = int(i)
-    
+
     lowestFuel = None
     mostFuelEfficientLocation = 0
     for i in range(largestPositionNumber+1):
@@ -32,7 +35,12 @@ def main():
         for position, values in positionsDict.items():
             if values["subsOnPosition"] != 0:
                 # Part1
-                fuelExpense += abs((position - i) * values["subsOnPosition"])
+                # fuelExpense += abs((position - i) * values["subsOnPosition"])
+                # Part2
+                # Playing with the numbers for the fuel consumption, found the sequence is triange numbers
+                # This makes the part 2 solution very easy
+                convert = abs(position - i)
+                fuelExpense += int(((convert*(convert+1)/2)) * values["subsOnPosition"])
         positionsDict[i]["fuelExpense"] = fuelExpense
         if lowestFuel is None:
             lowestFuel = fuelExpense
