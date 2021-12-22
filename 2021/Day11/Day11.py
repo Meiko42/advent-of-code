@@ -67,7 +67,7 @@ def evaluate_all_flashes(inputs, positions_to_flash, all_flashed_positions):
     there are no new flashes detected. We will return the new input, 
     and a set of all positions (x, y) that flashed. """
 
-    print(positions_to_flash)
+    # print(positions_to_flash)
 
     for flash_coordinate in positions_to_flash:
         inputs = increase_surrounding_positions(inputs, flash_coordinate)
@@ -89,8 +89,8 @@ def evaluate_all_flashes(inputs, positions_to_flash, all_flashed_positions):
     if len(positions_to_flash) > 0:
         inputs, all_flashed_positions = evaluate_all_flashes(inputs, positions_to_flash, all_flashed_positions)
 
-    print(f"Existing flashed positions: {positions_to_flash}")
-    print(f"Positions that need to flash: {positions_to_flash}")
+    # print(f"Existing flashed positions: {positions_to_flash}")
+    # print(f"Positions that need to flash: {positions_to_flash}")
 
 
     return inputs, all_flashed_positions
@@ -118,11 +118,13 @@ def increment_all_by_one(inputs):
     return modified_inputs, initial_flashes
 
 
-def part_one(inputs, steps):
+def part_one(inputs):
 
     number_of_flashes = 0
 
-    for i in range(steps):
+    iterations = 1
+
+    while True:
 
         # print(f"Step {i}:")
 
@@ -142,7 +144,15 @@ def part_one(inputs, steps):
         # for line in inputs:
         #     print(line)
 
-    print(number_of_flashes)
+        # print(iterations)
+        if iterations == 100:
+            print(number_of_flashes)
+
+        if len(flashed_positions) == 100:
+            print(iterations)
+            return
+
+        iterations += 1
 
 
 def main():
@@ -151,7 +161,7 @@ def main():
 
     inputs = read_input(input_file)
 
-    part_one(inputs, 100)
+    part_one(inputs)
 
 
 if __name__ == "__main__":
